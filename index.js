@@ -43,6 +43,7 @@ function setup(){
         els.stroke_weight.type = type;
         els.max_length.type = type;
         els.color_offset.type = type;
+        els.increase_speed.type = type;
     });
     els.checkboxes.color_anim.addEventListener('change', ()=>{
         if(els.checkboxes.color_anim.checked){
