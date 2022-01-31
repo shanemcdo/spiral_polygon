@@ -17,7 +17,6 @@ let els = {
     'color_offset': document.querySelector('#color-offset'),
     'share_link': document.querySelector('#share-link'),
 };
-let delta_theta = 360 / els.sides.value - 1;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -104,13 +103,13 @@ function calculate_rainbow(current, max) {
 }
 
 function reset_some(){
-    els.delta_theta.value = 360 / parseFloat(els.sides.value) - 1;
+    els.delta_theta.value = 360 / parseFloat(els.sides.value) - 0.1;
 }
 
 function reset_all(){
     els.sides.value = 6;
     reset_some();
-    els.max_length.value = 2000;
+    els.max_length.value = 3000;
     els.stroke_weight.value = 1;
     strokeWeight(els.stroke_weight.value);
     els.color_offset.value = 0;
@@ -120,8 +119,8 @@ function reset_all(){
 
 function load_from_get(){
     els.sides.value = GET.sides ?? 6;
-    els.delta_theta.value = GET.deltaTheta ?? 360 / parseFloat(els.sides.value) - 1;
-    els.max_length.value = GET.maxLen ?? 2000;
+    els.delta_theta.value = GET.deltaTheta ?? 360 / parseFloat(els.sides.value) - 0.1;
+    els.max_length.value = GET.maxLen ?? 3000;
     els.stroke_weight.value = GET.strokeWeight ?? 1;
     strokeWeight(els.stroke_weight.value);
     els.color_offset.value = GET.colorOffset ?? 0;
