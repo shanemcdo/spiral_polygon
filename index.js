@@ -1,3 +1,10 @@
+// parse location
+let GET = {};
+for(const item of window.location.search.split(/&|\?/).filter(substr => substr)){
+    let [key, val] = item.split('=').map(decodeURIComponent);
+    GET[key] = val;
+}
+
 let els = {
     'sides': document.querySelector('#sides'),
     'delta_theta': document.querySelector('#delta-theta'),
@@ -5,13 +12,16 @@ let els = {
     'max_length': document.querySelector('#max-length'),
     'checkboxes': {
         'slider': document.querySelector('#slider-checkbox'),
+        'color_anim': document.querySelector('#color-anim'),
     },
+    'color_offset': document.querySelector('#color-offset'),
 };
 let delta_theta = 360 / els.sides.value - 1;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
     angleMode(DEGREES);
+    colorMode(HSL);
     els.sides.addEventListener('input', ()=>{
         let val = parseFloat(els.sides.value);
         if(val < els.sides.min)
@@ -28,14 +38,23 @@ function setup(){
         redraw();
     });
     els.max_length.addEventListener('input', redraw);
-    els.checkboxes.slider.addEventListener('input', ()=>{
+    els.checkboxes.slider.addEventListener('change', ()=>{
         let type = "number";
         if(els.checkboxes.slider.checked)
             type = 'range';
         els.delta_theta.type = type;
         els.stroke_weight.type = type;
         els.max_length.type = type;
+        els.color_offset.type = type;
     });
+    els.checkboxes.color_anim.addEventListener('change', ()=>{
+        if(els.checkboxes.color_anim.checked){
+            loop();
+        } else {
+            noLoop();
+        }
+    });
+    els.color_offset.addEventListener('input', redraw);
     reset_all();
     noLoop();
 }
@@ -58,6 +77,10 @@ function draw(){
         angle += delta_theta;
         angle %= 360;
     }
+    if(els.checkboxes.color_anim.checked){
+        let val = parseFloat(els.color_offset.value);
+        els.color_offset.value = (val + 1) % 360;
+    }
 }
 
 function draw_line_at_angle(start, angle, length) {
@@ -70,25 +93,28 @@ function draw_line_at_angle(start, angle, length) {
 }
 
 function calculate_rainbow(current, max) {
-    push();
-    colorMode(HSL);
-    let c = color(
-        current / max * 360,
+    let offset = parseFloat(els.color_offset.value);
+    return color(
+        (current / max * 360 + offset) % 360,
         100,
         50,
     );
-    pop();
-    return c;
 }
 
 function reset_some(){
-    els.delta_theta.value = 360 / parseFloat(els.sides.value) - 1;
+    els.delta_theta.value = GET.deltaTheta ?? 360 / parseFloat(els.sides.value) - 1;
 }
 
 function reset_all(){
+    els.sides.value = GET.sides ?? 6;
     reset_some();
-    els.max_length.value = 2000
-    els.stroke_weight.value = 1;
-    strokeWeight(1);
+    els.max_length.value = GET.maxLen ?? 2000;
+    els.stroke_weight.value = GET.strokeWeight ?? 1;
+    strokeWeight(els.stroke_weight.value);
+    els.color_offset.value = GET.colorOffset ?? 0;
     redraw();
+}
+
+function make_link(){
+    return `${window.location.href}?sides=${els.sides.value}&deltaTheta=${els.delta_theta.value}&maxLen=${els.max_length.value}&strokeWeight=${els.stroke_weight.value}&colorOffset=${els.color_offset.value}`
 }

@@ -16,6 +16,8 @@
                 <div class=checkboxes>
                     <label for="slider-checkbox">Slider</label>
                     <input type="checkbox" name="slider-checkbox" id="slider-checkbox" checked/>
+                    <label for="color-anim">Color Animation</label>
+                    <input type="checkbox" name="color-anim" id="color-anim"/>
                 </div>
                 <label for=delta-theta>Change in angle</label>
                 <input type="range" min=0 max=360 name="delta-theta" id="delta-theta"/>
@@ -23,6 +25,8 @@
                 <input type="range" min=1 name="stroke-weight" id="stroke-weight"/>
                 <label for=max-length>Max side length</label>
                 <input type="range" name="max-length" id="max-length" min=20 max=10000>
+                <label for=color-offset>Color Offset</label>
+                <input type="range" name="color-offset" id="color-offset" min=0 max=360>
                 <button onclick="reset_all()">Reset</button>
                 <a class=link href="https://github.com/kermitpurple/spiral_polygon">Source</a>
             </div>
