@@ -16,6 +16,7 @@ let els = {
     },
     'color_offset': document.querySelector('#color-offset'),
     'share_link': document.querySelector('#share-link'),
+    'increase_speed': document.querySelector('#increase-speed'),
 };
 
 function setup(){
@@ -55,6 +56,12 @@ function setup(){
         }
     });
     els.color_offset.addEventListener('input', redraw);
+    els.increase_speed.addEventListener('input', ()=>{
+        let val = parseFloat(els.increase_speed.value);
+        if(val < els.increase_speed.min)
+            els.increase_speed.value = els.increase_speed.min;
+        redraw();
+    });
     noLoop();
     load_from_get();
 }
@@ -72,8 +79,9 @@ function draw(){
     let sides = parseFloat(els.sides.value);
     let max_size = parseFloat(els.max_length.value);
     let delta_theta = parseFloat(els.delta_theta.value);
-    for(let i = 0; i < max_size; i++){
-        stroke(calculate_rainbow(i % sides, sides));
+    let increase = parseFloat(els.increase_speed.value);
+    for(let i = 0; i < max_size; i += increase){
+        stroke(calculate_rainbow(i / increase % sides, sides));
         pos = draw_line_at_angle(pos, angle, i);
         angle += delta_theta;
         angle %= 360;
@@ -113,6 +121,7 @@ function reset_all(){
     els.stroke_weight.value = 1;
     strokeWeight(els.stroke_weight.value);
     els.color_offset.value = 0;
+    els.increase_speed.value = 1;
     redraw();
 }
 
@@ -125,11 +134,12 @@ function load_from_get(){
     els.color_offset.value = GET.colorOffset ?? 0;
     if(GET?.colorAnim === 'true' && !els.checkboxes.color_anim.checked)
         els.checkboxes.color_anim.click();
+    els.increase_speed.value = GET.increaseSpeed ?? 1;
 }
 
 function make_share_link(){
     let url = location.href.split(/\?/)[0];
-    return `${url}?sides=${els.sides.value}&deltaTheta=${els.delta_theta.value}&maxLen=${els.max_length.value}&strokeWeight=${els.stroke_weight.value}&colorOffset=${els.color_offset.value}&colorAnim=${els.checkboxes.color_anim.checked.toString()}`
+    return `${url}?sides=${els.sides.value}&deltaTheta=${els.delta_theta.value}&maxLen=${els.max_length.value}&strokeWeight=${els.stroke_weight.value}&colorOffset=${els.color_offset.value}&colorAnim=${els.checkboxes.color_anim.checked.toString()}&increaseSpeed=${els.increase_speed.value}`
 }
 
 function update_share_link(){
