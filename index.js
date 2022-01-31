@@ -2,6 +2,7 @@ let els = {
     'sides': document.querySelector('#sides'),
     'delta_theta': document.querySelector('#delta-theta'),
     'stroke_weight': document.querySelector('#stroke-weight'),
+    'max_length': document.querySelector('#max-length'),
 };
 let delta_theta = 360 / els.sides.value - 1;
 
@@ -23,6 +24,7 @@ function setup(){
         strokeWeight(els.stroke_weight.value);
         redraw();
     });
+    els.max_length.addEventListener('input', redraw);
     reset();
     noLoop();
 }
@@ -37,7 +39,7 @@ function draw(){
     let pos = createVector();
     let angle = 0;
     let sides = parseInt(els.sides.value);
-    let max_size = Math.max(windowWidth, windowHeight) * 1;
+    let max_size = parseInt(els.max_length.value);
     let delta_theta = parseInt(els.delta_theta.value);
     for(let i = 0; i < max_size; i++){
         stroke(calculate_rainbow(i % sides, sides));
@@ -70,4 +72,6 @@ function calculate_rainbow(current, max) {
 
 function reset(){
     els.delta_theta.value = 360 / parseInt(els.sides.value) - 1;
+    els.max_length.value = 2000
+    els.stroke_weight.value = 1;
 }
