@@ -113,7 +113,6 @@ function reset_all(){
     els.stroke_weight.value = 1;
     strokeWeight(els.stroke_weight.value);
     els.color_offset.value = 0;
-    window.location.search = "";
     redraw();
 }
 
