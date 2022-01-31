@@ -55,8 +55,8 @@ function setup(){
         }
     });
     els.color_offset.addEventListener('input', redraw);
-    reset_all();
     noLoop();
+    load_from_get();
 }
 
 function windowResized(){
@@ -102,19 +102,30 @@ function calculate_rainbow(current, max) {
 }
 
 function reset_some(){
-    els.delta_theta.value = GET.deltaTheta ?? 360 / parseFloat(els.sides.value) - 1;
+    els.delta_theta.value = 360 / parseFloat(els.sides.value) - 1;
 }
 
 function reset_all(){
-    els.sides.value = GET.sides ?? 6;
+    els.sides.value = 6;
     reset_some();
+    els.max_length.value = 2000;
+    els.stroke_weight.value = 1;
+    strokeWeight(els.stroke_weight.value);
+    els.color_offset.value = 0;
+    redraw();
+}
+
+function load_from_get(){
+    els.sides.value = GET.sides ?? 6;
+    els.delta_theta.value = GET.deltaTheta ?? 360 / parseFloat(els.sides.value) - 1;
     els.max_length.value = GET.maxLen ?? 2000;
     els.stroke_weight.value = GET.strokeWeight ?? 1;
     strokeWeight(els.stroke_weight.value);
     els.color_offset.value = GET.colorOffset ?? 0;
-    redraw();
+    if(GET?.colorAnim === 'true' && !els.checkboxes.color_anim.checked)
+        els.checkboxes.color_anim.click();
 }
 
 function make_link(){
-    return `${window.location.href}?sides=${els.sides.value}&deltaTheta=${els.delta_theta.value}&maxLen=${els.max_length.value}&strokeWeight=${els.stroke_weight.value}&colorOffset=${els.color_offset.value}`
+    return `${window.location.href}?sides=${els.sides.value}&deltaTheta=${els.delta_theta.value}&maxLen=${els.max_length.value}&strokeWeight=${els.stroke_weight.value}&colorOffset=${els.color_offset.value}&colorAnim=${els.checkboxes.color_anim.checked.toString()}`
 }
