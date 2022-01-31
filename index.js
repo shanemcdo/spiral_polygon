@@ -1,6 +1,7 @@
 let els = {
-    'sides': document.querySelector("#sides"),
-    'delta_theta': document.querySelector("#delta-theta"),
+    'sides': document.querySelector('#sides'),
+    'delta_theta': document.querySelector('#delta-theta'),
+    'stroke_weight': document.querySelector('#stroke-weight'),
 };
 let delta_theta = 360 / els.sides.value - 1;
 
@@ -8,10 +9,20 @@ function setup(){
     createCanvas(windowWidth, windowHeight);
     angleMode(DEGREES);
     els.sides.addEventListener('input', ()=>{
+        let val = parseInt(els.sides.value);
+        if(val < els.sides.min)
+            els.sides.value = els.sides.min;
         reset();
         redraw();
     });
     els.delta_theta.addEventListener('input', redraw);
+    els.stroke_weight.addEventListener('input', ()=>{
+        let val = parseInt(els.stroke_weight.value);
+        if(val < els.stroke_weight.min)
+            els.stroke_weight.value = els.stroke_weight.min;
+        strokeWeight(els.stroke_weight.value);
+        redraw();
+    });
     reset();
     noLoop();
 }
