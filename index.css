@@ -71,6 +71,10 @@ body{
     text-decoration: underline;
 }
 
+button{
+    display: block;
+}
+
 label,
 input{
     display: block;

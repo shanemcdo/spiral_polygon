@@ -37,7 +37,7 @@ function draw(){
     let pos = createVector();
     let angle = 0;
     let sides = parseInt(els.sides.value);
-    let max_size = Math.max(windowWidth, windowHeight) * 2;
+    let max_size = Math.max(windowWidth, windowHeight) * 1;
     let delta_theta = parseInt(els.delta_theta.value);
     for(let i = 0; i < max_size; i++){
         stroke(calculate_rainbow(i % sides, sides));
