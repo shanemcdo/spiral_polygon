@@ -15,6 +15,7 @@ let els = {
         'color_anim': document.querySelector('#color-anim'),
     },
     'color_offset': document.querySelector('#color-offset'),
+    'share_link': document.querySelector('#share-link'),
 };
 let delta_theta = 360 / els.sides.value - 1;
 
@@ -64,6 +65,7 @@ function windowResized(){
 }
 
 function draw(){
+    update_share_link();
     background(0);
     translate(windowWidth / 2, windowHeight / 2);
     let pos = createVector();
@@ -112,6 +114,7 @@ function reset_all(){
     els.stroke_weight.value = 1;
     strokeWeight(els.stroke_weight.value);
     els.color_offset.value = 0;
+    window.location.search = "";
     redraw();
 }
 
@@ -126,6 +129,10 @@ function load_from_get(){
         els.checkboxes.color_anim.click();
 }
 
-function make_link(){
+function make_share_link(){
     return `${window.location.href}?sides=${els.sides.value}&deltaTheta=${els.delta_theta.value}&maxLen=${els.max_length.value}&strokeWeight=${els.stroke_weight.value}&colorOffset=${els.color_offset.value}&colorAnim=${els.checkboxes.color_anim.checked.toString()}`
+}
+
+function update_share_link(){
+    els.share_link.href = make_share_link();
 }

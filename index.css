@@ -64,6 +64,7 @@ body{
 .link{
     color: #ccf;
     text-decoration: none;
+    display: block;
 }
 
 .link:hover,
