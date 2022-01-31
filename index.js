@@ -13,7 +13,7 @@ function setup(){
         let val = parseInt(els.sides.value);
         if(val < els.sides.min)
             els.sides.value = els.sides.min;
-        reset();
+        reset_some();
         redraw();
     });
     els.delta_theta.addEventListener('input', redraw);
@@ -25,7 +25,7 @@ function setup(){
         redraw();
     });
     els.max_length.addEventListener('input', redraw);
-    reset();
+    reset_all();
     noLoop();
 }
 
@@ -70,8 +70,14 @@ function calculate_rainbow(current, max) {
     return c;
 }
 
-function reset(){
+function reset_some(){
     els.delta_theta.value = 360 / parseInt(els.sides.value) - 1;
+}
+
+function reset_all(){
+    reset_some();
     els.max_length.value = 2000
     els.stroke_weight.value = 1;
+    strokeWeight(1);
+    redraw();
 }
