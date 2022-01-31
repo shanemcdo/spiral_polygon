@@ -24,17 +24,13 @@ function setup(){
     angleMode(DEGREES);
     colorMode(HSL);
     els.sides.addEventListener('input', ()=>{
-        let val = parseFloat(els.sides.value);
-        if(val < els.sides.min)
-            els.sides.value = els.sides.min;
+        validate_min(els.sides);
         reset_some();
         redraw();
     });
     els.delta_theta.addEventListener('input', redraw);
     els.stroke_weight.addEventListener('input', ()=>{
-        let val = parseFloat(els.stroke_weight.value);
-        if(val < els.stroke_weight.min)
-            els.stroke_weight.value = els.stroke_weight.min;
+        validate_min(els.stroke_weight);
         strokeWeight(els.stroke_weight.value);
         redraw();
     });
@@ -57,9 +53,7 @@ function setup(){
     });
     els.color_offset.addEventListener('input', redraw);
     els.increase_speed.addEventListener('input', ()=>{
-        let val = parseFloat(els.increase_speed.value);
-        if(val < els.increase_speed.min)
-            els.increase_speed.value = els.increase_speed.min;
+        validate_min(els.increase_speed);
         redraw();
     });
     noLoop();
@@ -144,4 +138,9 @@ function make_share_link(){
 
 function update_share_link(){
     els.share_link.href = make_share_link();
+}
+
+function validate_min(el){
+    if(parseFloat(el.value) < el.min)
+        el.value = el.min;
 }
