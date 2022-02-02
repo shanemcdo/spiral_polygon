@@ -4,6 +4,7 @@ for(const item of window.location.search.split(/&|\?/).filter(substr => substr))
     let [key, val] = item.split('=').map(decodeURIComponent);
     GET[key] = val;
 }
+let qr_code = null;
 
 let els = {
     'sides': document.querySelector('#sides'),
@@ -17,6 +18,7 @@ let els = {
     'color_offset': document.querySelector('#color-offset'),
     'share_link': document.querySelector('#share-link'),
     'increase_speed': document.querySelector('#increase-speed'),
+    'qr_code': document.querySelector("#qr-code"),
 };
 
 function setup(){
@@ -144,4 +146,25 @@ function update_share_link(){
 function validate_min(el){
     if(parseFloat(el.value) < el.min)
         el.value = el.min;
+}
+
+function gen_qr_code(){
+    if(qr_code != null)
+        return
+    qr_code = new QRCode(els.qr_code, {
+        text: make_share_link(),
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+    });
+    els.qr_code.focus();
+    els.qr_code.classList.remove('hidden');
+}
+
+function delete_qr_code(){
+    if(qr_code == null)
+        return
+    let child = els.qr_code.querySelector('img');
+    els.qr_code.removeChild(child);
+    qr_code = null;
+    els.qr_code.classList.add('hidden');
 }

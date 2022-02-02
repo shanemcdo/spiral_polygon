@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width">
         <link href="index.css" type="text/css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js" defer></script>
+        <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js" defer></script>
         <script src="index.js" defer></script>
     </head>
     <body>
@@ -30,9 +31,13 @@
                 <label for=increase-speed>Increase speed</label>
                 <input type="range" name="increase-speed" id="increase-speed" min=0.2 max=100 step=any />
                 <button onclick="reset_all()">Reset</button>
+                <button onclick="gen_qr_code()">Generate QR Code</button>
                 <a class=link id=share-link href="/">Share your creation!</a>
                 <a class=link href="https://github.com/kermitpurple/spiral_polygon">Source</a>
             </div>
+        </div>
+        <div id="qr-code" class="hidden">
+            <div id="exit-button" onclick="delete_qr_code()" >X</div>
         </div>
     </body>
 </html>
