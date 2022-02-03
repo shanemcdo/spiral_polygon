@@ -144,6 +144,7 @@ function load_from_get(){
     if(GET?.colorAnim === 'true' && !els.checkboxes.color_anim.checked)
         els.checkboxes.color_anim.click();
     els.increase_speed.value = GET.increaseSpeed ?? 1;
+    els.color_type.value = GET.colorType ?? 'spiral';
 }
 
 function make_share_link(){
