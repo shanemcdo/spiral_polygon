@@ -148,7 +148,15 @@ function load_from_get(){
 
 function make_share_link(){
     let url = location.href.split(/\?/)[0];
-    return `${url}?sides=${els.sides.value}&deltaTheta=${els.delta_theta.value}&maxLen=${els.max_length.value}&strokeWeight=${els.stroke_weight.value}&colorOffset=${els.color_offset.value}&colorAnim=${els.checkboxes.color_anim.checked.toString()}&increaseSpeed=${els.increase_speed.value}`
+    return `${url}?\
+sides=${els.sides.value}&\
+deltaTheta=${els.delta_theta.value}&\
+maxLen=${els.max_length.value}&\
+strokeWeight=${els.stroke_weight.value}&\
+increaseSpeed=${els.increase_speed.value}&\
+colorOffset=${els.color_offset.value}&\
+colorAnim=${els.checkboxes.color_anim.checked.toString()}&\
+colorType=${els.color_type.value}`;
 }
 
 function update_share_link(){
