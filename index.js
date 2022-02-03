@@ -28,7 +28,7 @@ function setup(){
     colorMode(HSL);
     els.sides.addEventListener('input', ()=>{
         validate_min(els.sides);
-        reset_some();
+        reset_delta_theta();
         redraw();
     });
     els.delta_theta.addEventListener('input', redraw);
@@ -119,32 +119,27 @@ function calculate_rainbow(current, max) {
     );
 }
 
-function reset_some(){
-    els.delta_theta.value = 360 / parseFloat(els.sides.value) - 0.1;
+function reset_delta_theta(default_value){
+    els.delta_theta.value = default_value ?? 360 / parseFloat(els.sides.value) - 0.1;
 }
 
-function reset_all(){
-    els.sides.value = 6;
-    reset_some();
-    els.max_length.value = 3000;
-    els.stroke_weight.value = 1;
+function reset(defaults = {}){
+    els.sides.value = defaults.sides ?? 6;
+    reset_delta_theta(defaults.deltaTheta);
+    els.delta_theta.value = defaults.deltaTheta ?? 360 / parseFloat(els.sides.value) - 0.1;
+    els.max_length.value = defaults.maxLen ?? 3000;
+    els.stroke_weight.value = defaults.strokeWeight ?? 1;
     strokeWeight(els.stroke_weight.value);
-    els.color_offset.value = 0;
-    els.increase_speed.value = 1;
+    els.color_offset.value = defaults.colorOffset ?? 0;
+    if(defaults?.colorAnim === 'true' && !els.checkboxes.color_anim.checked)
+        els.checkboxes.color_anim.click();
+    els.increase_speed.value = defaults.increaseSpeed ?? 1;
+    els.color_type.value = defaults.colorType ?? 'spiral';
     redraw();
 }
 
 function load_from_get(){
-    els.sides.value = GET.sides ?? 6;
-    els.delta_theta.value = GET.deltaTheta ?? 360 / parseFloat(els.sides.value) - 0.1;
-    els.max_length.value = GET.maxLen ?? 3000;
-    els.stroke_weight.value = GET.strokeWeight ?? 1;
-    strokeWeight(els.stroke_weight.value);
-    els.color_offset.value = GET.colorOffset ?? 0;
-    if(GET?.colorAnim === 'true' && !els.checkboxes.color_anim.checked)
-        els.checkboxes.color_anim.click();
-    els.increase_speed.value = GET.increaseSpeed ?? 1;
-    els.color_type.value = GET.colorType ?? 'spiral';
+    reset(GET);
 }
 
 function make_share_link(){
