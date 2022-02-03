@@ -19,6 +19,7 @@ let els = {
     'share_link': document.querySelector('#share-link'),
     'increase_speed': document.querySelector('#increase-speed'),
     'qr_code': document.querySelector("#qr-code"),
+    'color_type': document.querySelector('#color-type'),
 };
 
 function setup(){
@@ -59,6 +60,7 @@ function setup(){
         validate_min(els.increase_speed);
         redraw();
     });
+    els.color_type.addEventListener('input', redraw);
     noLoop();
     load_from_get();
 }
@@ -78,7 +80,17 @@ function draw(){
     let delta_theta = parseFloat(els.delta_theta.value);
     let increase = parseFloat(els.increase_speed.value);
     for(let i = 0; i < max_size; i += increase){
-        stroke(calculate_rainbow(i / increase % sides, sides));
+        let c;
+        switch(els.color_type.value){
+            default:
+            case 'spiral':
+                c = calculate_rainbow(i / increase, sides);
+                break;
+            case 'gradient':
+                c = calculate_rainbow(i / increase, max_size);
+                break;
+        }
+        stroke(c);
         pos = draw_line_at_angle(pos, angle, i);
         angle += delta_theta;
         angle %= 360;
@@ -101,7 +113,7 @@ function draw_line_at_angle(start, angle, length) {
 function calculate_rainbow(current, max) {
     let offset = parseFloat(els.color_offset.value);
     return color(
-        (current / max * 360 + offset) % 360,
+        (current % max / max * 360 + offset) % 360,
         100,
         50,
     );

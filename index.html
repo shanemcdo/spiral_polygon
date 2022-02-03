@@ -30,6 +30,11 @@
                 <input type="range" name="color-offset" id="color-offset" min=0 max=360 step=any />
                 <label for=increase-speed>Increase speed</label>
                 <input type="range" name="increase-speed" id="increase-speed" min=0.2 max=100 step=any />
+                <label for=color-type>Color Type</label>
+                <select name="color-type" id="color-type">
+                    <option value="spiral">Spiral</option>
+                    <option value="gradient">Gradient</option>
+                </select>
                 <button onclick="reset_all()">Reset</button>
                 <button onclick="gen_qr_code()">Generate QR Code</button>
                 <a class=link id=share-link href="/">Share your creation!</a>
