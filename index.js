@@ -164,6 +164,11 @@ function validate_min(el){
         el.value = el.min;
 }
 
+function validate_max(el){
+    if(parseFloat(el.value) > el.max)
+        el.value = el.max;
+}
+
 function gen_qr_code(){
     if(qr_code != null)
         return
